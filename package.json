@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "@develukrosoft/grapesjs-accordion": "^1.0.8",
+    "grapesjs": "^0.17.4",
+    "grapesjs-accordion": "^1.0.10",
+    "grapesjs-blocks-bootstrap4": "^0.2.3",
+    "grapesjs-blocks-bootstrap5": "^0.2.7",
+    "grapesjs-bootstrap4-blocks": "^0.2.16",
+    "grapesjs-plugin-ckeditor": "^0.0.10",
+    "grapesjs-preset-webpage": "^0.1.11",
+    "grapesjs-preset-webpage-edited": "^0.1.16",
+    "grapesjs-rally-widgets": "^1.0.3",
+    "grapesjs-rte-extensions": "^1.0.5",
+    "grapesjs-slider": "^0.1.6",
+    "grapesjs-style-gradient": "^2.0.14",
+    "grapesjs-table": "^1.0.7",
+    "grapesjs-tabs": "^1.0.6",
+    "grapick": "^0.1.13"
+  }
+}
