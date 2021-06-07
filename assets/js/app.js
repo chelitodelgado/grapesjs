@@ -8,7 +8,7 @@ const editor = grapesjs.init({
     // TODO: La opción de fradMode es opcional ya que si se habilita el modo responsivo se modifica y no respeta la posicion 
     // para ajustarse a la nueva pantalla a menos que el diseño creado sea unicamente para resoluciones mayores a 1300px.
     // dragMode: 'absolute', 
-        
+    
     stepsBeforeSave: 1,
     noticeOnUnload: 0,
     assetManager: {
@@ -69,7 +69,8 @@ const editor = grapesjs.init({
         'grapesjs-parser-postcss',
         'grapesjs-script-editor',
         'grapesjs-typed',
-        'grapesjs-indexeddb'
+        'grapesjs-indexeddb',
+        'grapesjs-rulers'
         
     ],
     pluginsOpts: {
@@ -80,6 +81,7 @@ const editor = grapesjs.init({
         'grapesjs-style-bg': { /* options */ },
         'grapesjs-script-editor': { /* options */ },
         'grapesjs-typed': { /* options */ },
+        'grapesjs-rulers': { /* options */ },
         'grapesjs-blocks-bootstrap4': {
             blocks: {},
             blockCategories: {},
@@ -104,6 +106,9 @@ const editor = grapesjs.init({
     }
 
 });
+
+editor.on('storage:start', startLoading);
+editor.on('storage:end', endLoading);
 
 editor.I18n.addMessages({
     en: {
@@ -139,6 +144,35 @@ editor.DomComponents.addType('image-with-link', {
             }
         }
     }
+});
+
+editor.DomComponents.addType('input', {
+    isComponent: el => el.tagName == 'INPUT',
+    model: {
+      defaults: {
+        traits: [
+          // Strings are automatically converted to text types
+          'name', // Same as: { type: 'text', name: 'name' }
+          'placeholder',
+          {
+            type: 'select', // Type of the trait
+            label: 'Type', // The label you will see in Settings
+            name: 'type', // The name of the attribute/property to use on component
+            options: [
+              { id: 'text', name: 'Text'},
+              { id: 'email', name: 'Email'},
+              { id: 'password', name: 'Password'},
+              { id: 'number', name: 'Number'},
+            ]
+          }, {
+            type: 'checkbox',
+            name: 'required',
+        }],
+        // As by default, traits are binded to attributes, so to define
+        // their initial value we can use attributes
+        attributes: { type: 'text', required: true },
+      },
+    },
 });
 
 var domComps = editor.DomComponents;
@@ -180,6 +214,20 @@ domComps.addType('texttool', {
 
     view: dView,
 });
+
+const pn = editor.Panels;
+const panelViews = pn.addPanel({
+  id: 'options'
+});
+panelViews.get('buttons').add([{
+  attributes: {
+    title: 'Toggle Rulers'
+  },
+  context: 'toggle-rulers', 
+  label: `<svg width="18" viewBox="0 0 16 16"><path d="M0 8a.5.5 0 0 1 .5-.5h15a.5.5 0 0 1 0 1H.5A.5.5 0 0 1 0 8z"/><path d="M4 3h8a1 1 0 0 1 1 1v2.5h1V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2.5h1V4a1 1 0 0 1 1-1zM3 9.5H2V12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9.5h-1V12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/></svg>`,
+  command: 'ruler-visibility',
+  id: 'ruler-visibility'
+}]);
 
 
 
